@@ -13,8 +13,13 @@ def create_schema(db):
     cur.execute('''CREATE TABLE IF NOT EXISTS ConfigItems(
             id integer PRIMARY KEY,
             key TEXT NOT NULL,
-            value TEXT)''')
-    cur.execute('''CREATE UNIQUE INDEX ConfigItemKeys ON ConfigItems (key);''')
+            value TEXT,
+            CONSTRAINT cfgitemunique UNIQUE(key))''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS CalendarEvents(
+            id integer PRIMARY KEY,
+            timestart TIMESTAMP,
+            eventname TEXT,
+            CONSTRAINT eventunique UNIQUE(timestart, eventname))''')
     db.commit()
 
 def initialize():
